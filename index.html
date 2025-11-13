@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pinjam Kamera</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px 20px;
+        }
+
+        .menu-buttons {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .menu-btn {
+            background: white;
+            border: 2px solid #e0e0e0;
+            padding: 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .menu-btn:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .menu-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: #667eea;
+            color: white;
+        }
+
+        .icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon svg {
+            width: 100%;
+            height: 100%;
+            stroke: #667eea;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .menu-btn.active .icon svg {
+            stroke: white;
+        }
+
+        .menu-text h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .menu-text p {
+            font-size: 13px;
+            opacity: 0.7;
+        }
+
+        .form-section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .radio-option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .radio-option input[type="radio"] {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .radio-option.selected {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .checkbox-option input[type="checkbox"] {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .checkbox-option.selected {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .message.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📷 Pinjam Kamera</h1>
+            <p>Isi dulu bro!</p>
+        </div>
+
+        <div class="content">
+            <div class="message" id="message"></div>
+
+            <div class="menu-buttons">
+                <button class="menu-btn" id="btnPinjam" onclick="showForm('pinjam')">
+                    <div class="icon">
+                        <svg viewBox="0 0 24 24">
+                            <rect x="2" y="4" width="20" height="16" rx="2"/>
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M7 4v-2"/>
+                            <path d="M17 4v-2"/>
+                        </svg>
+                    </div>
+                    <div class="menu-text">
+                        <h3>Pinjam Kamera</h3>
+                        <p>Mulai minjam kamera</p>
+                    </div>
+                </button>
+
+                <button class="menu-btn" id="btnSelesai" onclick="showForm('selesai')">
+                    <div class="icon">
+                        <svg viewBox="0 0 24 24">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                    </div>
+                    <div class="menu-text">
+                        <h3>Selesai Pinjam</h3>
+                        <p>Kembalikan kamera</p>
+                    </div>
+                </button>
+            </div>
+
+            <!-- Form Pinjam Kamera -->
+            <div class="form-section" id="formPinjam">
+                <form id="formPinjamKamera" onsubmit="submitPinjam(event)">
+                    <div class="form-group">
+                        <label>Nama Peminjam</label>
+                        <input type="text" id="namaPinjam" required placeholder="Ketik Nama">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Pilih Kamera</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="kamera" value="A7" required>
+                                <span>Sony A7</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="kamera" value="A7 Mark 2" required>
+                                <span>Sony A7 Mark 2</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Pilih Lensa</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="lensa" value="19mm">
+                                <span>Lensa 19mm</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="lensa" value="50mm">
+                                <span>Lensa 50mm</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="lensa" value="dua-duanya">
+                                <span>dua-duanya</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="btnSubmitPinjam">
+                        Pinjam Dulu
+                    </button>
+                </form>
+            </div>
+
+            <!-- Form Selesai Pinjam -->
+            <div class="form-section" id="formSelesai">
+                <form id="formSelesaiPinjam" onsubmit="submitSelesai(event)">
+                    <div class="form-group">
+                        <label>Nama Peminjam</label>
+                        <input type="text" id="namaSelesai" required placeholder="Ketik Nama">
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="btnSubmitSelesai">
+                        Selesai
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // URL Google Apps Script Web App (ganti dengan URL Anda)
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbylCvtQb8DdE3Y1lQoqBrwvyCDjHmzOyaEJIyJtkoJFl4fSzSF5uGpnmoRyHKckp5tj/exec';
+
+        // Tambahkan efek pada radio dan checkbox
+        document.querySelectorAll('.radio-option input').forEach(input => {
+            input.addEventListener('change', function() {
+                document.querySelectorAll('.radio-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                if(this.checked) {
+                    this.closest('.radio-option').classList.add('selected');
+                }
+            });
+        });
+
+        document.querySelectorAll('.checkbox-option input').forEach(input => {
+            input.addEventListener('change', function() {
+                if(this.checked) {
+                    this.closest('.checkbox-option').classList.add('selected');
+                } else {
+                    this.closest('.checkbox-option').classList.remove('selected');
+                }
+            });
+        });
+
+        function showForm(type) {
+            // Reset active button
+            document.querySelectorAll('.menu-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Hide all forms
+            document.querySelectorAll('.form-section').forEach(form => {
+                form.classList.remove('active');
+            });
+
+            // Hide message
+            document.getElementById('message').classList.remove('show');
+
+            // Show selected form
+            if(type === 'pinjam') {
+                document.getElementById('btnPinjam').classList.add('active');
+                document.getElementById('formPinjam').classList.add('active');
+            } else {
+                document.getElementById('btnSelesai').classList.add('active');
+                document.getElementById('formSelesai').classList.add('active');
+            }
+        }
+
+        function showMessage(text, type) {
+            const messageEl = document.getElementById('message');
+            messageEl.textContent = text;
+            messageEl.className = 'message ' + type + ' show';
+            
+            setTimeout(() => {
+                messageEl.classList.remove('show');
+            }, 5000);
+        }
+
+        function submitPinjam(event) {
+            event.preventDefault();
+            
+            const btn = document.getElementById('btnSubmitPinjam');
+            btn.disabled = true;
+            btn.textContent = 'Mengirim...';
+
+            const nama = document.getElementById('namaPinjam').value;
+            const kamera = document.querySelector('input[name="kamera"]:checked').value;
+            
+            // Get selected lenses
+            const lensaCheckboxes = document.querySelectorAll('input[name="lensa"]:checked');
+            let lensa = [];
+            lensaCheckboxes.forEach(cb => {
+                lensa.push(cb.value);
+            });
+
+            if(lensa.length === 0) {
+                showMessage('Pilih minimal satu lensa cuk!', 'error');
+                btn.disabled = false;
+                btn.textContent = 'Pinjam Dulu';
+                return;
+            }
+
+            const lensaText = lensa.join(', ');
+
+            const data = {
+                action: 'pinjam',
+                nama: nama,
+                kamera: kamera,
+                lensa: lensaText
+            };
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                showMessage('Oke siap, silakan pake jangan sampe rusak!', 'success');
+                document.getElementById('formPinjamKamera').reset();
+                document.querySelectorAll('.radio-option, .checkbox-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+            })
+            .catch(error => {
+                showMessage('Terjadi kesalahan. Silakan coba lagi.', 'error');
+                console.error('Error:', error);
+            })
+            .finally(() => {
+                btn.disabled = false;
+                btn.textContent = 'Pinjam Dulu';
+            });
+        }
+
+        function submitSelesai(event) {
+            event.preventDefault();
+            
+            const btn = document.getElementById('btnSubmitSelesai');
+            btn.disabled = true;
+            btn.textContent = 'Memproses...';
+
+            const nama = document.getElementById('namaSelesai').value;
+
+            const data = {
+                action: 'selesai',
+                nama: nama
+            };
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                showMessage('Aman? Kalo ada rusak jangan diem-diem bae ya!', 'success');
+                document.getElementById('formSelesaiPinjam').reset();
+            })
+            .catch(error => {
+                showMessage('Terjadi kesalahan. Silakan coba lagi.', 'error');
+                console.error('Error:', error);
+            })
+            .finally(() => {
+                btn.disabled = false;
+                btn.textContent = 'Selesai';
+            });
+        }
+    </script>
+</body>
+</html>

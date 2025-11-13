@@ -290,17 +290,226 @@
         .message.show {
             display: block;
         }
+
+        /* Popup Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 350px;
+            width: 90%;
+            text-align: center;
+            animation: scaleIn 0.3s ease;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+        }
+
+        .modal-icon.success {
+            background: #d4edda;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .modal-text {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .modal-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Monitor Status */
+        .monitor-section {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .monitor-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .monitor-status {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .status-card {
+            background: #f8f9ff;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .status-card.active {
+            border-color: #ff6b6b;
+            background: #fff5f5;
+        }
+
+        .status-card.available {
+            border-color: #51cf66;
+            background: #f0fdf4;
+        }
+
+        .status-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .status-card.active .status-icon {
+            background: #ff6b6b;
+        }
+
+        .status-card.available .status-icon {
+            background: #51cf66;
+        }
+
+        .status-icon svg {
+            width: 22px;
+            height: 22px;
+            stroke: white;
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .status-info {
+            flex: 1;
+        }
+
+        .status-camera {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 3px;
+        }
+
+        .status-text {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .status-card.active .status-text {
+            color: #c92a2a;
+            font-weight: 500;
+        }
+
+        .status-card.available .status-text {
+            color: #2f9e44;
+            font-weight: 500;
+        }
+
+        .loading {
+            text-align: center;
+            color: #999;
+            font-size: 14px;
+            padding: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>📷 Pinjam Kamera</h1>
-            <p>Isi dulu bro!</p>
+            <h1>📷 Pinjam Kamera Dulu</h1>
+            <p>Isi dulu bro biar ga slek!</p>
         </div>
 
         <div class="content">
             <div class="message" id="message"></div>
+
+            <!-- Monitor Status Section -->
+            <div class="monitor-section">
+                <div class="monitor-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                        <line x1="8" y1="21" x2="16" y2="21"/>
+                        <line x1="12" y1="17" x2="12" y2="21"/>
+                    </svg>
+                    Status Kamera Terkini
+                </div>
+                <div class="monitor-status" id="monitorStatus">
+                    <div class="loading">Hmmm...</div>
+                </div>
+            </div>
 
             <div class="menu-buttons">
                 <button class="menu-btn" id="btnPinjam" onclick="showForm('pinjam')">
@@ -314,7 +523,7 @@
                     </div>
                     <div class="menu-text">
                         <h3>Pinjam Kamera</h3>
-                        <p>Mulai minjam kamera</p>
+                        <p>Baru mau pinjam isi disini</p>
                     </div>
                 </button>
 
@@ -326,7 +535,7 @@
                     </div>
                     <div class="menu-text">
                         <h3>Selesai Pinjam</h3>
-                        <p>Kembalikan kamera</p>
+                        <p>Kalo udah selesai pinjam isi disini</p>
                     </div>
                 </button>
             </div>
@@ -364,10 +573,6 @@
                                 <input type="checkbox" name="lensa" value="50mm">
                                 <span>Lensa 50mm</span>
                             </label>
-                            <label class="checkbox-option">
-                                <input type="checkbox" name="lensa" value="dua-duanya">
-                                <span>dua-duanya</span>
-                            </label>
                         </div>
                     </div>
 
@@ -393,9 +598,97 @@
         </div>
     </div>
 
+    <!-- Modal Popup -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-icon success">
+                ✓
+            </div>
+            <div class="modal-title" id="modalTitle">Berhasil!</div>
+            <div class="modal-text" id="modalText">Berhasil</div>
+            <button class="modal-btn" onclick="closeModal()">OK</button>
+        </div>
+    </div>
+
     <script>
         // URL Google Apps Script Web App (ganti dengan URL Anda)
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbylCvtQb8DdE3Y1lQoqBrwvyCDjHmzOyaEJIyJtkoJFl4fSzSF5uGpnmoRyHKckp5tj/exec';
+
+        // Load status saat halaman dimuat
+        window.addEventListener('load', function() {
+            loadCameraStatus();
+        });
+
+        // Refresh status setiap 30 detik
+        setInterval(loadCameraStatus, 30000);
+
+        function loadCameraStatus() {
+            fetch(SCRIPT_URL + '?action=getStatus')
+                .then(response => response.json())
+                .then(data => {
+                    displayCameraStatus(data);
+                })
+                .catch(error => {
+                    console.error('Error loading status:', error);
+                    document.getElementById('monitorStatus').innerHTML = '<div class="loading">Gagal memuat status</div>';
+                });
+        }
+
+        function displayCameraStatus(data) {
+            const container = document.getElementById('monitorStatus');
+            
+            if (!data || !data.cameras) {
+                container.innerHTML = '<div class="loading">Belum ada yang pinjam kamera</div>';
+                return;
+            }
+
+            let html = '';
+            
+            data.cameras.forEach(camera => {
+                if (camera.status === 'dipinjam') {
+                    html += `
+                        <div class="status-card active">
+                            <div class="status-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <rect x="2" y="4" width="20" height="16" rx="2"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                            </div>
+                            <div class="status-info">
+                                <div class="status-camera">${camera.name}</div>
+                                <div class="status-text">Sedang dipinjam ${camera.peminjam}</div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    html += `
+                        <div class="status-card available">
+                            <div class="status-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <polyline points="20 6 9 17 4 12"/>
+                                </svg>
+                            </div>
+                            <div class="status-info">
+                                <div class="status-camera">${camera.name}</div>
+                                <div class="status-text">Tersedia</div>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            container.innerHTML = html || '<div class="loading">Belum ada yang pinjam kamera</div>';
+        }
+
+        function showPopup(title, message) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalText').textContent = message;
+            document.getElementById('modal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('show');
+        }
 
         // Tambahkan efek pada radio dan checkbox
         document.querySelectorAll('.radio-option input').forEach(input => {
@@ -471,7 +764,7 @@
             });
 
             if(lensa.length === 0) {
-                showMessage('Pilih minimal satu lensa cuk!', 'error');
+                showMessage('Pilih minimal satu lensa!', 'error');
                 btn.disabled = false;
                 btn.textContent = 'Pinjam Dulu';
                 return;
@@ -495,11 +788,13 @@
                 body: JSON.stringify(data)
             })
             .then(() => {
-                showMessage('Oke siap, silakan pake jangan sampe rusak!', 'success');
+                showPopup('Berhasil!', 'Oke siap, silakan pake jangan sampe rusak!');
                 document.getElementById('formPinjamKamera').reset();
                 document.querySelectorAll('.radio-option, .checkbox-option').forEach(opt => {
                     opt.classList.remove('selected');
                 });
+                // Refresh status setelah submit
+                setTimeout(loadCameraStatus, 1000);
             })
             .catch(error => {
                 showMessage('Terjadi kesalahan. Silakan coba lagi.', 'error');
@@ -534,8 +829,10 @@
                 body: JSON.stringify(data)
             })
             .then(() => {
-                showMessage('Aman? Kalo ada rusak jangan diem-diem bae ya!', 'success');
+                showPopup('Selesai!', 'Aman? Kalo ada rusak jangan diem-diem bae ya!');
                 document.getElementById('formSelesaiPinjam').reset();
+                // Refresh status setelah submit
+                setTimeout(loadCameraStatus, 1000);
             })
             .catch(error => {
                 showMessage('Terjadi kesalahan. Silakan coba lagi.', 'error');
